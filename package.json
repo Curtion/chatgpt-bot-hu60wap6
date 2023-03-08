@@ -1,0 +1,21 @@
+{
+  "name": "chatgpt-bot-hu60wap6",
+  "version": "1.0.0",
+  "description": "hu60wap6上的ChatGPT机器人",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "serve": "tsc ./src/main.ts && node ./main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Curtion",
+  "license": "GPLv3",
+  "dependencies": {
+    "chatgpt": "^5.0.8",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.6"
+  }
+}

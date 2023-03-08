@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "moduleResolution":"node",
+    "esModuleInterop": true,
+  },
+  "include": ["src/**/*", "config.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
