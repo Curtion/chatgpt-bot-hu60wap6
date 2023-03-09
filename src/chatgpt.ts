@@ -18,6 +18,7 @@ export default class ChatGPT {
       res = await api.sendMessage(text, {
         parentMessageId: session[uid].id
       });
+      session[uid].replyDate = Date.now()
     }
     return res
   }
