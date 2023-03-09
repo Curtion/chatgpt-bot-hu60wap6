@@ -4,5 +4,8 @@ type hu60BotInfo = {
 }
 
 interface session {
-  [name: string]: string,
+  [name: string]: {
+    id: string,
+    replyDate: number,
+  },
 }
