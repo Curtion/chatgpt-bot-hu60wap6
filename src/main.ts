@@ -1,5 +1,5 @@
 import { ChatGPTAPI } from 'chatgpt'
-import config from '../config'
+import config from '../config.json'
 const api = new ChatGPTAPI({ 
   apiKey: config.apiKey
 })
