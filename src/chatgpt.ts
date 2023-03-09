@@ -8,6 +8,7 @@ const api = new ChatGPTAPI({
 export default class ChatGPT {
   static async sendMessage(text: string, uid: number) {
     let res = null
+    console.log(session[uid])
     if (session[uid] == undefined) {
       res = await api.sendMessage(text);
       session[uid] = res.id

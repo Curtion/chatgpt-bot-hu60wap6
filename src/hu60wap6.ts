@@ -28,7 +28,10 @@ async function replyAtInfo(info: any) {
     console.log('replyAtInfo', config.hu60Url + url.replace('{$BID}', 'html'));
     let topicObject = await readTopicContent(url);
     let text = undefined;
-    if (topicObject.error === 'true') return
+    if (topicObject.error === 'true') {
+      console.log(topicObject.errInfo.message)
+      return
+    }
     if (topicObject.tContents) {
       text = topicObject.tContents[0]?.content;
     } else {
@@ -36,6 +39,7 @@ async function replyAtInfo(info: any) {
     }
     if (text === undefined) return
     text = text.trim().replace(/^发言待审核，仅管理员和作者本人可见。/s, '').trim();
+    console.log('内容:', text)
 
     let replyText = await sendText(text, uid);
     try {
@@ -142,7 +146,6 @@ export async function run() {
   while (true) {
     try {
       let atInfo = await readAtInfo();
-      console.log(atInfo)
       // @消息是后收到的在前面，所以从后往前循环，先发的先处理
       for (let i = atInfo.msgList.length - 1; i >= 0; i--) {
         try {
