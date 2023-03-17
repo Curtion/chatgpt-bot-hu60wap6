@@ -144,7 +144,8 @@ async function login(): Promise<hu60BotInfo> {
 export async function run() {
   try {
     await login()
-  } catch (error) {
+  } catch (ex) {
+    console.error('login', ex);
     await sleep(10000);
     await run();
     return;
@@ -158,13 +159,13 @@ export async function run() {
           await replyAtInfo(atInfo.msgList[i]);
           await sleep(100);
         } catch (ex) {
-          console.error(ex);
+          console.error('replyAtInfo', ex);
           await sleep(10000);
         }
       }
       await sleep(5000);
     } catch (ex) {
-      console.error(ex);
+      console.error('readAtInfo', ex);
       await sleep(10000);
     }
   }
