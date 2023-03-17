@@ -153,6 +153,7 @@ export async function run() {
   while (true) {
     try {
       let atInfo = await readAtInfo();
+      console.log(atInfo.msgList)
       // @消息是后收到的在前面，所以从后往前循环，先发的先处理
       for (let i = atInfo.msgList.length - 1; i >= 0; i--) {
         try {
