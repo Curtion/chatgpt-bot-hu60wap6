@@ -142,7 +142,13 @@ async function login(): Promise<hu60BotInfo> {
 }
 
 export async function run() {
-  await login()
+  try {
+    await login()
+  } catch (error) {
+    await sleep(10000);
+    await run();
+    return;
+  }
   while (true) {
     try {
       let atInfo = await readAtInfo();
