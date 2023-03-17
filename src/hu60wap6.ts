@@ -153,13 +153,13 @@ export async function run() {
           await sleep(100);
         } catch (ex) {
           console.error(ex);
-          await sleep(1000);
+          await sleep(10000);
         }
       }
       await sleep(5000);
     } catch (ex) {
       console.error(ex);
-      await sleep(1000);
+      await sleep(10000);
     }
   }
 }
