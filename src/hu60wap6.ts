@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import config from '../config.js'
 import { botInfo } from './session.js'
 import { sleep } from './utils.js'
@@ -150,24 +151,43 @@ export async function run() {
     await run();
     return;
   }
-  while (true) {
+  const ws = new WebSocket(config.hu60WsUrl + '?_sid=' + botInfo.sid);
+  ws.on('error', function (error: any) {
+    console.error("WebSocket 连接出错", event);
+    ws.close();
+  });
+
+  ws.on('close', function open() {
+    run()
+  });
+
+  ws.on('open', async function open() {
     try {
-      let atInfo = await readAtInfo();
+      let atInfo = await readAtInfo()
       console.log(atInfo.msgList)
       // @消息是后收到的在前面，所以从后往前循环，先发的先处理
       for (let i = atInfo.msgList.length - 1; i >= 0; i--) {
         try {
-          await replyAtInfo(atInfo.msgList[i]);
-          await sleep(100);
+          await replyAtInfo(atInfo.msgList[i])
         } catch (ex) {
-          console.error('replyAtInfo', ex);
-          await sleep(10000);
+          console.error('replyAtInfo', ex)
         }
       }
-      await sleep(5000);
     } catch (ex) {
-      console.error('readAtInfo', ex);
-      await sleep(10000);
+      console.error('readAtInfo', ex)
     }
-  }
+
+    // 每隔一分钟发送一个 keep alive 消息，防止连接断开
+    setInterval(() => {
+      ws.send('{"action":"ping"}')
+    }, 60000);
+  });
+
+  ws.on('message', function message(data: any) {
+    const json = JSON.parse(data)
+    if (json.event == 'msg') {
+      json.data.content = json.data.content ? JSON.parse(json.data.content) : null
+      replyAtInfo(json.data)
+    }
+  });
 }
