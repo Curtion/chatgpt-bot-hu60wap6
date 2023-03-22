@@ -168,7 +168,8 @@ export async function run() {
       // @消息是后收到的在前面，所以从后往前循环，先发的先处理
       for (let i = atInfo.msgList.length - 1; i >= 0; i--) {
         try {
-          await replyAtInfo(atInfo.msgList[i])
+          // await replyAtInfo(atInfo.msgList[i])
+          // 暂时不处理,因为通过ws通知消息依然会停留到提醒列表中.
         } catch (ex) {
           console.error('replyAtInfo', ex)
         }
@@ -185,7 +186,7 @@ export async function run() {
 
   ws.on('message', function message(data: any) {
     const json = JSON.parse(data)
-    if (json.event == 'msg') {
+    if (json.event == 'msg' && json.data.type == '1') {
       json.data.content = json.data.content ? JSON.parse(json.data.content) : null
       replyAtInfo(json.data)
     }
